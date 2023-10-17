@@ -261,6 +261,18 @@ namespace MobileProjectLab.ViewModel
         {
             try
             {
+                var status = await Permissions.CheckStatusAsync<Permissions.LocationAlways>();
+
+                if (status != PermissionStatus.Granted)
+                {
+                    status = await Permissions.RequestAsync<Permissions.LocationAlways>();
+                }
+
+                if (status != PermissionStatus.Granted)
+                {
+                    return;
+                }
+
                 IsScanning = true;
 
                 var tasks = new Task[]
